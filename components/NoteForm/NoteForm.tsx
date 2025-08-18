@@ -29,6 +29,7 @@ export default function NoteForm() {
           value={draft.title}
           onChange={(e) => setDraft({ title: e.target.value })}
           required
+          className={css.input}
         />
       </div>
 
@@ -40,6 +41,7 @@ export default function NoteForm() {
           value={draft.content}
           onChange={(e) => setDraft({ content: e.target.value })}
           required
+          className={css.textarea}
         />
       </div>
 
@@ -61,12 +63,12 @@ export default function NoteForm() {
       </div>
 
       <div className={css.actions}>
-        <button type="submit" className={css.create}>
+        <button type="submit" className={css.submitButton}>
           Create Note
         </button>
         <button
           type="button"
-          className={css.cancel}
+          className={css.cancelButton}
           onClick={() => router.back()}
         >
           Cancel
