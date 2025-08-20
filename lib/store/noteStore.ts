@@ -1,27 +1,21 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { NewNoteData } from '../../types/note';
+import type { NewNoteData } from '../../types/note';
 
-type initialDraft = {
-  draft: NewNoteData;
-  setDraft: (note: NewNoteData) => void;
-  clearDraft: () => void;
-};
-export const initialDraft = {
+
+const initialDraft: NewNoteData = {
   title: '',
   content: '',
-  tag: '',
+  tag: 'Todo', 
 };
 
-type Draft = typeof initialDraft;
-
-type NoteStore = {
-  draft: Draft;
-  setDraft: (note: Partial<Draft>) => void;
+type NoteDraftStore = {
+  draft: NewNoteData;
+  setDraft: (note: Partial<NewNoteData>) => void;
   clearDraft: () => void;
 };
 
-export const useNoteStore = create<NoteStore>()(
+export const useNoteStore = create<NoteDraftStore>()(
   persist(
     (set) => ({
       draft: initialDraft,
@@ -29,11 +23,11 @@ export const useNoteStore = create<NoteStore>()(
         set((state) => ({
           draft: { ...state.draft, ...note },
         })),
-      clearDraft: () => set({ draft: initialDraft }),
+      clearDraft: () => set(() => ({ draft: { ...initialDraft } })),
     }),
     {
       name: 'note-draft',
-      partialize: (state: NoteStore) => ({ draft: state.draft }),
+      partialize: (state) => ({ draft: state.draft }),
     }
   )
 );

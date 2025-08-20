@@ -16,16 +16,11 @@ import ErrorMessage from "../[...slug]/error";
 import toast, { Toaster } from "react-hot-toast";
 
 type NotesClientProps = {
-  initialData: FetchNotesResponse;
   tag: string;
   perPage?: number;
 };
 
-export default function NotesClient({
-  initialData,
-  tag,
-  perPage = 12,
-}: NotesClientProps) {
+export default function NotesClient({ tag, perPage = 12 }: NotesClientProps) {
   const [search, setSearch] = useState("");
   const [inputValue, setInputValue] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -51,7 +46,6 @@ export default function NotesClient({
   const { data, isLoading, isError, isSuccess, error } = useQuery<FetchNotesResponse>({
     queryKey: ["notes", currentPage, search, tag],
     queryFn: () => fetchNotes(currentPage, perPage, search, tag),
-    initialData: currentPage === 1 && search === "" ? initialData : undefined,
     placeholderData: keepPreviousData,
   });
 
